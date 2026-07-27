@@ -40,6 +40,8 @@ import '../../styles/formulario.css';
     </div>
 
     <script>
+      const baseUrl = import.meta.env.BASE_URL || '/';
+
       // Función para extraer IDs de YouTube (video y playlist)
       function extraerDatosDeYoutube(url) {
         const videoRegex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&\n?#]+)/;
@@ -83,7 +85,7 @@ import '../../styles/formulario.css';
 
         // Redirigir a home después de 2 segundos
         setTimeout(() => {
-          window.location.href = '/';
+          window.location.href = baseUrl;
         }, 2000);
       });
     </script>
