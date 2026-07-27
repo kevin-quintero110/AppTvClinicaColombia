@@ -1,0 +1,91 @@
+---
+import '../../styles/formulario.css';
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Formulario de carga de videos - Clínica Colombia" />
+    <title>Cargar Video - Clínica Colombia</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Selecciona un Video o Playlist</h1>
+      <form id="videoForm">
+        <input
+          type="text"
+          id="videoUrl"
+          placeholder="Ingresa la URL de YouTube (video o playlist)"
+          required
+        />
+        <button id="btnCargaVideo" type="submit">
+          Cargar
+        </button>
+      </form>
+      <p id="mensaje"></p>
+    </div>
+
+    <script>
+      // Función para extraer IDs de YouTube (video y playlist)
+      function extraerDatosDeYoutube(url) {
+        const videoRegex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&\n?#]+)/;
+        const playlistRegex = /[?&]list=([a-zA-Z0-9_-]+)/;
+
+        const videoMatch = url.match(videoRegex);
+        const playlistMatch = url.match(playlistRegex);
+
+        return {
+          videoId: videoMatch ? videoMatch[1] : null,
+          playlistId: playlistMatch ? playlistMatch[1] : null,
+        };
+      }
+
+      document.getElementById('videoForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const videoUrl = document.getElementById('videoUrl').value;
+        const { videoId, playlistId } = extraerDatosDeYoutube(videoUrl);
+        const mensajeEl = document.getElementById('mensaje');
+
+        if (!videoId && !playlistId) {
+          mensajeEl.textContent = 'URL de YouTube no válida.';
+          mensajeEl.style.color = 'red';
+          return;
+        }
+
+        // Guardar en localStorage
+        const videoState = {
+          videoId: videoId || null,
+          playlistId: playlistId || null,
+          imageSrc: null,
+          type: playlistId ? 'playlist' : 'video'
+        };
+
+        localStorage.setItem('videoState', JSON.stringify(videoState));
+
+        mensajeEl.textContent = '¡Video/Playlist guardado correctamente!';
+        mensajeEl.style.color = 'green';
+        document.getElementById('videoUrl').value = '';
+
+        // Redirigir a home después de 2 segundos
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
+      });
+    </script>
+  </body>
+</html>

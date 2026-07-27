@@ -1,0 +1,19 @@
+{
+  "name": "apptv",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.14.0"
+  },
+  "devDependencies": {
+    "@astrojs/node": "^7.0.3"
+  }
+}

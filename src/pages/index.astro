@@ -1,0 +1,142 @@
+---
+import '../styles/App.css';
+import '../styles/index.css';
+import esloganImg from '../img/Clinica Colombia.jpg';
+import olasImg from '../img/olasClinica.png';
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Clínica Colombia - Reproductor de Videos" />
+    <title>Clínica Colombia - TV</title>
+  </head>
+  <body>
+    <div class="App">
+      <!-- Logo que lleva al formulario -->
+      <div class="logo-container">
+        <button class="irform-btn" id="irFormBtn" title="Ir al formulario"></button>
+      </div>
+
+      <!-- Banner inferior animado -->
+      <div class="welcome-banner">
+        <div class="marquee-content">
+          <span>Bienvenidos a Clínica Colombia Es</span>
+          <span class="marquee-gap"></span>
+          <span>Bienvenidos a Clínica Colombia Es</span>
+          <span class="marquee-gap"></span>
+          <span>Bienvenidos a Clínica Colombia Es</span>
+        </div>
+      </div>
+
+      <!-- Imagen de eslogan -->
+      <div class="Cln" id="eslogan">
+        <img src={esloganImg.src} alt="Eslogan Clínica Colombia" />
+      </div>
+
+      <!-- Contenedor del video -->
+      <div class="video-container" id="videoContainer">
+        <!-- iframe se cargará aquí con JavaScript -->
+      </div>
+
+      <!-- Contenedor de la imagen cargada -->
+      <div class="image-container" id="imageContainer">
+        <!-- Imagen dinámica se cargará aquí -->
+      </div>
+
+      <!-- Imagen decorativa de olas -->
+      <div class="olas-container">
+        <img src={olasImg.src} alt="Olas" />
+      </div>
+    </div>
+
+    <script>
+      // Obtener datos de localStorage
+      function getVideoState() {
+        const stored = localStorage.getItem('videoState');
+        if (stored) {
+          try {
+            return JSON.parse(stored);
+          } catch {
+            return { videoId: null, playlistId: null, imageSrc: null };
+          }
+        }
+        return { videoId: null, playlistId: null, imageSrc: null };
+      }
+
+      // Cargar video por defecto si no existe uno guardado
+      function loadDefaultVideo() {
+        const state = getVideoState();
+        if (!state.videoId && !state.playlistId) {
+          // Video de YouTube por defecto
+          const defaultState = {
+            videoId: "zdYgXWzac-M",
+            playlistId: null,
+            imageSrc: null,
+            type: "video"
+          };
+          localStorage.setItem('videoState', JSON.stringify(defaultState));
+          return defaultState;
+        }
+        return state;
+      }
+
+      // Mostrar el video después de 4 segundos
+      function displayVideo() {
+        const state = loadDefaultVideo();
+        const container = document.getElementById('videoContainer');
+
+        if (state.videoId || state.playlistId) {
+          setTimeout(() => {
+            const iframe = document.createElement('iframe');
+            iframe.setAttribute('title', 'Video de YouTube');
+            iframe.setAttribute('width', '100%');
+            iframe.setAttribute('height', '100%');
+            iframe.setAttribute('style', 'max-width: 100%; max-height: 100%;');
+            iframe.setAttribute('allow', 'autoplay; encrypted-media');
+            iframe.setAttribute('allowFullScreen', 'true');
+
+            if (state.playlistId) {
+              iframe.src = `https://www.youtube.com/embed/videoseries?list=${state.playlistId}&autoplay=1&enablejsapi=1`;
+            } else {
+              iframe.src = `https://www.youtube.com/embed/${state.videoId}?autoplay=1&loop=1&playlist=${state.videoId}&mute=1&enablejsapi=1`;
+            }
+
+            container.innerHTML = '';
+            container.appendChild(iframe);
+          }, 4000);
+        }
+      }
+
+      // Mostrar imagen dinámica si existe
+      function displayImage() {
+        const state = getVideoState();
+        const container = document.getElementById('imageContainer');
+
+        if (state.imageSrc) {
+          const img = document.createElement('img');
+          img.src = state.imageSrc;
+          img.alt = 'Imagen dinámica';
+          img.style.width = '100%';
+          img.style.maxWidth = '500px';
+          container.appendChild(img);
+        }
+      }
+
+      // Ir al formulario
+      document.getElementById('irFormBtn').addEventListener('click', () => {
+        window.location.href = '/formulario/';
+      });
+
+      // Ir al formulario al hacer click en la imagen
+      document.getElementById('eslogan').addEventListener('click', () => {
+        window.location.href = '/formulario/';
+      });
+
+      // Inicializar
+      displayVideo();
+      displayImage();
+    </script>
+  </body>
+</html>

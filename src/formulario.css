@@ -1,0 +1,27 @@
+/* filepath: /home/felo-dev/Documentos/apptv/src/formulario.css */
+.container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+}
+input, button {
+  margin: 10px;
+  padding: 10px;
+  width: 90%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+button {
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+button:hover {
+  background-color: #0056b3;
+}
