@@ -1,7 +1,7 @@
 ---
 import '../styles/App.css';
 import '../styles/index.css';
-import esloganImg from '../img/Clinica Colombia.jpg';
+import esloganImg from '../img/clinica-colombia.jpg';
 import olasImg from '../img/olasClinica.png';
 ---
 
@@ -52,6 +52,9 @@ import olasImg from '../img/olasClinica.png';
     </div>
 
     <script>
+      // Base URL para GitHub Pages y otros subpaths
+      const baseUrl = import.meta.env.BASE_URL || '/';
+
       // Obtener datos de localStorage
       function getVideoState() {
         const stored = localStorage.getItem('videoState');
@@ -126,12 +129,12 @@ import olasImg from '../img/olasClinica.png';
 
       // Ir al formulario
       document.getElementById('irFormBtn').addEventListener('click', () => {
-        window.location.href = '/formulario/';
+        window.location.href = baseUrl + 'formulario/';
       });
 
       // Ir al formulario al hacer click en la imagen
       document.getElementById('eslogan').addEventListener('click', () => {
-        window.location.href = '/formulario/';
+        window.location.href = baseUrl + 'formulario/';
       });
 
       // Inicializar
